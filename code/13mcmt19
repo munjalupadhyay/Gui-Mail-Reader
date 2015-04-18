@@ -1,0 +1,515 @@
+relevant to you as to them:
+
+1. You need to think more on what the error conditions will be. For e.g.,
+what if the subject field is blank? What if the body is blank? Is there a
+limit on the size of the body of the message? What happens if the body
+exceeds that?
+
+2. What happens if the mail box contains more than 50 messages? Has no
+messages?
+
+3. State that the mail box is the standard SMTP mail box format.
+
+4. Communication protocol: You have to state exactly what is the message
+that goes between client and server for every function - for e.g., when
+the user types name and password, the message from client to server
+consists of two strings - first, the username and then the password. What
+is the format of the message from the server to the client if the user
+exists and does not exist? You need to define this thoroughly. And, for
+every message exchanged. Otherwise, it will be tough to design correctly.
+Do this at least as part of High Level Design.
+
+5. Use case diagrams? Try. It will be useful for your theory course too.
+
+Anupama
+
+
+From apcs@dcis.uohyd.ernet.in  Mon Mar  3 09:49:50 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id DE1C058E0AD
+	for <mc13mt20@dcis.uohyd.ernet.in>; Mon,  3 Mar 2014 09:49:49 +0530 (IST)
+Received: from 10.5.0.104
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 3 Mar 2014 09:49:49 +0530
+Message-ID: <9dd0143b47758ef56fa465fd84e1e78d.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <dfb750f252b833cb3a4d055e301de0c6.squirrel@dcis.uohyd.ernet.in>
+References: <dfb750f252b833cb3a4d055e301de0c6.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 3 Mar 2014 09:49:49 +0530
+Subject: Re: Design Document(final version)
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 9                                       
+Status: RO
+
+Rejected! Do you want me to cut marks for not following the submission
+guidelines? Be sure the next time I will certainly do so!
+
+Anupama
+
+From apcs@dcis.uohyd.ernet.in  Tue Mar  4 10:58:04 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 5229C58E0BF;
+	Tue,  4 Mar 2014 10:58:04 +0530 (IST)
+Received: from 10.5.0.104
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Tue, 4 Mar 2014 10:58:04 +0530
+Message-ID: <c1dce654c8e12e9715b3dc3b71396a10.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <081490dbdce822565360c2c48c89a1cb.squirrel@dcis.uohyd.ernet.in>
+References: <081490dbdce822565360c2c48c89a1cb.squirrel@dcis.uohyd.ernet.in>
+Date: Tue, 4 Mar 2014 10:58:04 +0530
+Subject: Re: 13mcmt19-13mcmt20-13mcmt50-Final HDD Submission
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in,
+ mc13mt19@dcis.uohyd.ernet.in,
+ mc13mt50@dcis.uohyd.ernet.in
+Cc: mc12pc01@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 10                                                 
+Status: RO
+Content-Length: 1747
+
+As I have repeatedly said, the GUI does NOT have any interface functions.
+An interface function is a function that is called from another module. In
+GUI, there is an infinite EventLoop() which keeps waiting for events. When
+the user presses a button, it is an event and the function corresponding
+to that function is called by the EventLoop(). Therefore, all of the
+functions of GUI are INTERNAL, not interface.
+
+Message formats are not defined and the messages for each operation are
+not clearly defined.
+
+Why is file open error an insufficient memory error? File cannot be opened
+is different from the memory error. Please separate the two.
+
+Why do you need an interface in client called "connect()"? Unless there is
+a specific connect event in GUI which calls this in the client, the
+connect is internal to authenticate.
+
+When the user presses logout, the interface of client logout() is called.
+This should trigger a message to the server which will close the file
+corresponding to the user.
+
+Why should the server have an interface called authenticate? This is a
+message from client to server. There are similar messages for fetch mail
+and fetch message operations. The functions in the server to handle each
+of these messages are all INTERNAL functions once again as in GUI. The
+server, like GUI, is always in an infinite loop waiting for messages on
+the socket.
+
+It is better if the interface of parser getMail() returns a structure
+consisting of all the different headers and the body as separate fields of
+the structure. Otherwise, you will have to replicate the code of the
+parser in whoever does this separation of the "string mailbody"  output
+parameter. That leads to lack of data abstraction as well as lack of
+modularity.
+
+Anupama
+
+
+From apcs@dcis.uohyd.ernet.in  Tue Mar 18 09:00:37 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 7AE6E58E09E
+	for <mc13mt20@dcis.uohyd.ernet.in>; Tue, 18 Mar 2014 09:00:37 +0530 (IST)
+Received: from 10.5.0.104
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Tue, 18 Mar 2014 09:00:37 +0530
+Message-ID: <e0fc539392f76df43fba18d152e7320c.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <64689c0cf21cd7dbc3736ccd920159e6.squirrel@dcis.uohyd.ernet.in>
+References: <64689c0cf21cd7dbc3736ccd920159e6.squirrel@dcis.uohyd.ernet.in>
+Date: Tue, 18 Mar 2014 09:00:37 +0530
+Subject: Re: Request  for an appoinment
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 11                                                 
+Status: RO
+
+after 3PM? I have a class from 2-3. Have other appts. and I need to
+prepare for my class in the morning.
+
+Anupama
+
+> Respected Ma'am,
+>                 Ma'am I got few doubts in my detailed design,So for
+> clearing the doubts please allot me a half an hour time
+> slot if possible today(18mar)
+>
+>                                               Your Respectfully
+>                                               Name Munjal
+> Upadhyaya(13mcmt19)
+>
+
+
+From apcs@dcis.uohyd.ernet.in  Sun Mar 23 19:47:12 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id D13DD58E09A
+	for <mc13mt20@dcis.uohyd.ernet.in>; Sun, 23 Mar 2014 19:47:12 +0530 (IST)
+Received: from 59.93.48.106
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Sun, 23 Mar 2014 19:47:12 +0530
+Message-ID: <24837c59cbe2143e15178ed53791b3ea.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <0e3439cce562f33956bdca446a613f9f.squirrel@dcis.uohyd.ernet.in>
+References: <0e3439cce562f33956bdca446a613f9f.squirrel@dcis.uohyd.ernet.in>
+Date: Sun, 23 Mar 2014 19:47:12 +0530
+Subject: Re: 13mcmt20_dd submission
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 12                                       
+Status: RO
+
+Actually, it is not the best thing to submit individual modules as I will
+not be able to find out the issues between modules (this is despite the
+fact that HLD is supposed to define interfaces). I know HLD is incomplete
+in many cases and I want to see how you are all using each other's
+interfaces. So, do send the complete document combining all modules into
+one document. I will review this for now but if you want real feedback it
+has to be all modules together...
+
+Anupama
+
+> Respected ma'am
+>                 Due to the lack of information that we are allow to submit
+> individual module.I delayed my module so please consider
+> my detailed design submission now.
+>
+>
+>
+>
+>
+>                                        Your Sincerly
+>                                        Name Salil Jain
+
+
+From apcs@dcis.uohyd.ernet.in  Sun Mar 23 20:55:24 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 6144058E09A
+	for <mc13mt20@dcis.uohyd.ernet.in>; Sun, 23 Mar 2014 20:55:24 +0530 (IST)
+Received: from 59.93.48.106
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Sun, 23 Mar 2014 20:55:24 +0530
+Message-ID: <d9b5d60dd6de1214235fff7518526ac8.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <0e3439cce562f33956bdca446a613f9f.squirrel@dcis.uohyd.ernet.in>
+References: <0e3439cce562f33956bdca446a613f9f.squirrel@dcis.uohyd.ernet.in>
+Date: Sun, 23 Mar 2014 20:55:24 +0530
+Subject: Re: 13mcmt20_dd submission
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 13                                       
+Status: RO
+
+Please meet me. It is clear that you do not understand anything at all of
+what you are supposed to be doing....
+
+Anupama
+
+
+From sdbcs@dcis.uohyd.ernet.in  Sat Apr 12 10:17:07 2014
+Return-Path: <sdbcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id D818A58E0B1
+	for <mc13mt20@dcis.uohyd.ernet.in>; Sat, 12 Apr 2014 10:17:06 +0530 (IST)
+Received: from 10.5.0.133
+        (SquirrelMail authenticated user sdbcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Sat, 12 Apr 2014 10:17:06 +0530
+Message-ID: <6a525be7b9f61c992869588f2b7df730.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <14a5b8c3b37139aa041379efde7307d8.squirrel@dcis.uohyd.ernet.in>
+References: <14a5b8c3b37139aa041379efde7307d8.squirrel@dcis.uohyd.ernet.in>
+Date: Sat, 12 Apr 2014 10:17:06 +0530
+Subject: Re: 
+From: sdbcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 17                                       
+Content-Length: 1113
+Status: RO
+
+Dear Salil,
+
+Don't worry about breaking down. It is not good to hold so much inside and
+it is supposed to be healing to get it out of the system.
+
+I can see that you are under great stress due to piling up of work. Hope
+you have done your image processing seminar well. Take one at a time. Now
+work on your SE Lab work. Then you can take up Adv Algo assignment.
+
+All the best.
+You can always come and chat with me when you feel like if it helps you.
+Most of the faculty in our school are willing to listen; so do not
+hesitate to take help when needed.
+
+Best Wishes,
+sdb
+
+> Respected Ma'am
+>                First of all Thanks for the support Ma'am and Sorry for
+> what I have done yesterday.I don't know why that happened,
+> may be because of frustration from giving seminars or
+> minors everyday. Generally I don't breakdown so easily I
+> may fail sometimes but then again get ready to cross the
+> hurdle and this time too.
+>
+>
+>     Thanking You
+>
+>
+>
+>                                                           Your
+> Respectfully
+>                                                           Name Salil Jain
+>
+
+
+From mc13mt20@dcis.uohyd.ernet.in  Mon Apr 14 09:56:46 2014
+Return-Path: <mc13mt20@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 99F1B58E0A2;
+	Mon, 14 Apr 2014 09:56:46 +0530 (IST)
+Received: from 10.4.12.196
+        (SquirrelMail authenticated user mc13mt20)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 14 Apr 2014 09:56:46 +0530
+Message-ID: <830490c09fd4f0201ed0c4abc0c2aa07.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 14 Apr 2014 09:56:46 +0530
+Subject: testing mail
+From: mc13mt20@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+Cc: mc13mt20@dcis.uohyd.ernet.in,
+ mc13mt19@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 1 (Highest)
+Importance: High
+X-UID: 18                                                 
+Status: RO
+
+to test the system use test cases
+
+From mc13mt20@dcis.uohyd.ernet.in  Mon Apr 14 10:00:25 2014
+Return-Path: <mc13mt20@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 1446858E0A2;
+	Mon, 14 Apr 2014 10:00:25 +0530 (IST)
+Received: from 10.4.12.196
+        (SquirrelMail authenticated user mc13mt20)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 14 Apr 2014 10:00:25 +0530
+Message-ID: <8ac56942eb0c09ed98a2b31a26db8668.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 14 Apr 2014 10:00:25 +0530
+Subject: test message2
+From: mc13mt20@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+Cc: mc13mt20@dcis.uohyd.ernet.in,
+ mc13mt19@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 19                                                 
+Status: RO
+
+testing
+
+From mc13mt20@dcis.uohyd.ernet.in  Mon Apr 14 10:26:27 2014
+Return-Path: <mc13mt20@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id 3ACC358E0A2;
+	Mon, 14 Apr 2014 10:26:27 +0530 (IST)
+Received: from 10.4.12.196
+        (SquirrelMail authenticated user mc13mt20)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 14 Apr 2014 10:26:27 +0530
+Message-ID: <cba1748c62ff6f7595adf02d3ad640bf.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 14 Apr 2014 10:26:27 +0530
+Subject: testing mail
+From: mc13mt20@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+Cc: mc13mt20@dcis.uohyd.ernet.in,
+ mc13mt19@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 20                                                  
+Content-Length: 1119
+
+>From apcs@dcis.uohyd.ernet.in  Mon Feb  3 20:59:05 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id B4F0958E08F
+	for <mc13mt20@dcis.uohyd.ernet.in>; Mon,  3 Feb 2014 20:59:05 +0530 (IST)
+Received: from 59.93.51.4
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 3 Feb 2014 20:59:05 +0530
+Message-ID: <67aa94456b88fed5e2c7200c3a9b1b7a.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <c5be8b294574d0d63115659dfeae27c2.squirrel@dcis.uohyd.ernet.in>
+References: <c5be8b294574d0d63115659dfeae27c2.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 3 Feb 2014 20:59:05 +0530
+Subject: Re: GUI mail reader by 13mcmt19_20_50.
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 7
+Content-Length: 1116
+Status: RO
+
+From mc13mt20@dcis.uohyd.ernet.in  Mon Apr 14 10:28:23 2014
+Return-Path: <mc13mt20@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id A94AC58E0A2;
+	Mon, 14 Apr 2014 10:28:23 +0530 (IST)
+Received: from 10.4.12.196
+        (SquirrelMail authenticated user mc13mt20)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 14 Apr 2014 10:28:23 +0530
+Message-ID: <80ba60a5f2010a846e2ee9b7fb7a67d4.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 14 Apr 2014 10:28:23 +0530
+Subject: testing mail
+From: mc13mt20@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+Cc: mc13mt20@dcis.uohyd.ernet.in,
+ mc13mt19@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 21                                                  
+Content-Length: 2235
+
+>From apcs@dcis.uohyd.ernet.in  Mon Feb  3 20:59:05 2014
+Return-Path: <apcs@dcis.uohyd.ernet.in>
+X-Original-To: mc13mt20@dcis.uohyd.ernet.in
+Delivered-To: mc13mt20@dcis.uohyd.ernet.in
+Received: from dcis.uohyd.ernet.in (localhost [127.0.0.1])
+	by dcis.uohyd.ernet.in (Postfix) with ESMTP id B4F0958E08F
+	for <mc13mt20@dcis.uohyd.ernet.in>; Mon,  3 Feb 2014 20:59:05 +0530 (IST)
+Received: from 59.93.51.4
+        (SquirrelMail authenticated user apcs)
+        by dcis.uohyd.ernet.in with HTTP;
+        Mon, 3 Feb 2014 20:59:05 +0530
+Message-ID: <67aa94456b88fed5e2c7200c3a9b1b7a.squirrel@dcis.uohyd.ernet.in>
+In-Reply-To: <c5be8b294574d0d63115659dfeae27c2.squirrel@dcis.uohyd.ernet.in>
+References: <c5be8b294574d0d63115659dfeae27c2.squirrel@dcis.uohyd.ernet.in>
+Date: Mon, 3 Feb 2014 20:59:05 +0530
+Subject: Re: GUI mail reader by 13mcmt19_20_50.
+From: apcs@dcis.uohyd.ernet.in
+To: mc13mt20@dcis.uohyd.ernet.in
+User-Agent: SquirrelMail/1.4.21
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-UID: 7
+Content-Length: 1116
+Status: RO
+
+Here are my comments to another team of GUI mail reader which seem as
+relevant to you as to them:
+
+1. You need to think more on what the error conditions will be. For e.g.,
+what if the subject field is blank? What if the body is blank? Is there a
+limit on the size of the body of the message? What happens if the body
+exceeds that?
+
+2. What happens if the mail box contains more than 50 messages? Has no
+messages?
+
+3. State that the mail box is the standard SMTP mail box format.
+
+4. Communication protocol: You have to state exactly what is the message
+that goes between client and server for every function - for e.g., when
+the user types name and password, the message from client to server
+consists of two strings - first, the username and then the password. What
+is the format of the message from the server to the client if the user
+exists and does not exist? You need to define this thoroughly. And, for
+every message exchanged. Otherwise, it will be tough to design correctly.
+Do this at least as part of High Level Design.
+
+5. Use case diagrams? Try. It will be useful for your theory course too.
+
+Anupama
+
+
+
+
+
